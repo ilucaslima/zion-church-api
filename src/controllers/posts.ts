@@ -9,12 +9,11 @@ export const create = async (
   next: NextFunction
 ) => {
   try {
-    const { title, content } = req.body;
+    const { content } = req.body;
     const userId = res.locals.userId;
 
     const post = await prisma.post.create({
       data: {
-        title,
         content,
         authorId: userId,
       },
@@ -75,7 +74,7 @@ export const viewAll = async (
       })
     );
 
-    return res.status(200).json(postsWithComments);
+    return res.status(200).json(postsWithComments.reverse());
   } catch (error) {
     next(error);
   }
