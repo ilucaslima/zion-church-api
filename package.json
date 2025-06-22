@@ -7,9 +7,10 @@
     "dev": "nodemon server.ts",
     "prisma:generate": "npx prisma generate",
     "prisma:push": "npx prisma db push",
-    "test": "jest",
-    "start": "npx ts-node --transpile-only server.ts",
-    "build": "tsc --noEmitOnError false"
+    "build": "tsc --noEmitOnError false",
+    "lint": "npx eslint src/**/*.ts src/**/*.ts server.ts",
+    "start": "tsx server.ts",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",

@@ -14,6 +14,10 @@ router.get("/like/:id", authMiddleware, (req, res, next) => {
   post.like(req, res, next);
 });
 
+router.get("/unlike/:id", authMiddleware, (req, res, next) => {
+  post.unlike(req, res, next);
+});
+
 router.get("/", (req, res, next) => {
   post.viewAll(req, res, next);
 });
