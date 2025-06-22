@@ -9,7 +9,7 @@
     "prisma:push": "npx prisma db push",
     "test": "jest",
     "start": "npx ts-node --transpile-only server.ts",
-    "build": "tsc"
+    "build": "tsc --noEmitOnError false"
   },
   "keywords": [],
   "author": "",

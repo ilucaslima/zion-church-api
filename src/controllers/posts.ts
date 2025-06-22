@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Post, PrismaClient } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
 
 const prisma = new PrismaClient();
@@ -62,7 +62,7 @@ export const viewAll = async (
     const posts = await prisma.post.findMany();
 
     const postsWithComments = await Promise.all(
-      posts.map(async (post) => {
+      posts.map(async (post: Post) => {
         const comments = await prisma.comment.findMany({
           where: { postId: post.id },
         });
