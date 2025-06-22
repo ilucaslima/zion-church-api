@@ -8,7 +8,8 @@
     "prisma:generate": "npx prisma generate",
     "prisma:push": "npx prisma db push",
     "test": "jest",
-    "start": "npx ts-node --transpile-only server.ts"
+    "start": "npx ts-node --transpile-only server.ts",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
