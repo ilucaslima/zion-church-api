@@ -16,5 +16,5 @@ app.use(router);
 app.use(errorHandler);
 
 app.listen(process.env.PORT || 3000, async () => {
-  console.log(`🚀 PORT: http://localhost:${process.env.PORT || 3000}`);
+  console.log(`🚀 PORT: ${process.env.PORT || 3000}`);
 });
