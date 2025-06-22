@@ -4,11 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon server.ts",
-    "prisma:generate": "npx prisma generate",
-    "prisma:push": "npx prisma db push",
-    "build": "tsc --noEmitOnError false",
-    "lint": "npx eslint src/**/*.ts src/**/*.ts server.ts",
+    "dev": "nodemon --exec tsx server.ts",
+    "lint": "npx eslint src/**/*.ts src/*.ts src/server.ts",
     "start": "tsx server.ts",
     "test": "jest"
   },
@@ -24,6 +21,7 @@
     "jsonwebtoken": "^9.0.2",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
+    "tsx": "^4.20.3",
     "typescript": "^5.8.3",
     "zod": "^3.25.67"
   },
