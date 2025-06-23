@@ -26,6 +26,10 @@ export const create = async (
         content,
         authorId: userId,
         authorName: user.name,
+        ...(req?.file?.location && { image: req?.file?.location }),
+        ...(req?.file?.originalname && {
+          imageName: req?.file?.originalname,
+        }),
       },
     });
 

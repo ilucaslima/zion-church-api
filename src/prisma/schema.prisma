@@ -29,6 +29,9 @@ model Post {
   likedBy    String[]
   authorName String
   comments   Comment[]
+
+  image     String?
+  imageName String?
 }
 
 model Comment {

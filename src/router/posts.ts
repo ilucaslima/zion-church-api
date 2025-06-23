@@ -4,9 +4,11 @@ import authMiddleware from "../middleware/auth";
 
 import * as post from "../controllers/posts";
 
+import { upload } from "../services/s3";
+
 export const router = express.Router();
 
-router.post("/", authMiddleware, (req, res, next) => {
+router.post("/", authMiddleware, upload.single("image"), (req, res, next) => {
   post.create(req, res, next);
 });
 

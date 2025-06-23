@@ -26,6 +26,7 @@ export const errorHandler: ErrorRequestHandler = (
   }
 
   if (error instanceof Error) {
+    console.log(error);
     res.status(400).json({ message: "Erro na API" });
     return;
   }
