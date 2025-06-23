@@ -14,10 +14,10 @@ export const create = async (
   next: NextFunction
 ) => {
   try {
-    const { email, password } = userSchemaValidation.parse(req.body);
+    const { cpf, password, name } = userSchemaValidation.parse(req.body);
 
     const userAlreadyExists = await prisma.user.findUnique({
-      where: { email },
+      where: { cpf },
     });
 
     if (userAlreadyExists) {
@@ -27,7 +27,7 @@ export const create = async (
     const passHashed = await hashedPassword(password);
 
     const user = await prisma.user.create({
-      data: { email, password: passHashed },
+      data: { cpf, password: passHashed, name: name || "" },
     });
 
     const token = generateToken({ userId: user.id });
@@ -50,10 +50,10 @@ export const login = async (
   next: NextFunction
 ) => {
   try {
-    const { email, password } = userSchemaValidation.parse(req.body);
+    const { cpf, password } = userSchemaValidation.parse(req.body);
 
     const user = await prisma.user.findUnique({
-      where: { email },
+      where: { cpf },
     });
 
     if (!user) {

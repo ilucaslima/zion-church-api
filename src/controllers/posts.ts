@@ -1,5 +1,6 @@
 import { Post, PrismaClient } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
+import { getIO } from "../utils/socket";
 
 const prisma = new PrismaClient();
 
@@ -12,12 +13,24 @@ export const create = async (
     const { content } = req.body;
     const userId = res.locals.userId;
 
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "Usuário não encontrado!" });
+    }
+
     const post = await prisma.post.create({
       data: {
         content,
         authorId: userId,
+        authorName: user.name,
       },
     });
+
+    const io = getIO();
+    io.emit("newPost", post);
 
     return res.status(201).json(post);
   } catch (error) {
@@ -42,9 +55,16 @@ export const like = async (req: Request, res: Response, next: NextFunction) => {
       return res.status(400).json({ message: "Você já curtiu este post!" });
     }
 
-    await prisma.post.update({
+    const updatedPost = await prisma.post.update({
       where: { id: id },
       data: { likes: { increment: 1 }, likedBy: { push: userId } },
+    });
+
+    const io = getIO();
+    io.emit("postLiked", {
+      postId: id,
+      likes: updatedPost.likes,
+      likedBy: updatedPost.likedBy,
     });
 
     return res.sendStatus(200);
@@ -94,6 +114,14 @@ export const comment = async (
       where: { id: id },
     });
 
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "Usuário não encontrado!" });
+    }
+
     if (!post) {
       return res.status(404).json({ message: "Post não encontrado!" });
     }
@@ -103,8 +131,12 @@ export const comment = async (
         content,
         postId: id,
         authorId: userId,
+        name: user.name,
       },
     });
+
+    const io = getIO();
+    io.emit("newComment", { postId: id, comment });
 
     return res.status(201).json(comment);
   } catch (error) {
@@ -133,7 +165,7 @@ export const unlike = async (
       return res.status(400).json({ message: "Você não curtiu este post!" });
     }
 
-    await prisma.post.update({
+    const updatedPost = await prisma.post.update({
       where: { id: id },
       data: { likes: { decrement: 1 } },
     });
@@ -142,6 +174,9 @@ export const unlike = async (
       where: { id: id },
       data: { likedBy: { set: post.likedBy.filter((id) => id !== userId) } },
     });
+
+    const io = getIO();
+    io.emit("postUnliked", { postId: id, likes: updatedPost.likes });
 
     return res.sendStatus(200);
   } catch (error) {

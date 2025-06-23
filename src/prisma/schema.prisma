@@ -9,7 +9,8 @@ generator client {
 
 model User {
   id        String    @id @default(uuid()) @map("_id")
-  email     String    @unique
+  cpf       String    @unique
+  name      String
   password  String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -18,16 +19,16 @@ model User {
 }
 
 model Post {
-  id        String   @id @default(uuid()) @map("_id")
-  content   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  String
-  likes     Int      @default(0)
-  likedBy   String[]
-
-  comments Comment[]
+  id         String    @id @default(uuid()) @map("_id")
+  content    String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  author     User      @relation(fields: [authorId], references: [id])
+  authorId   String
+  likes      Int       @default(0)
+  likedBy    String[]
+  authorName String
+  comments   Comment[]
 }
 
 model Comment {
@@ -39,4 +40,5 @@ model Comment {
   postId    String
   author    User     @relation(fields: [authorId], references: [id])
   authorId  String
+  name      String
 }

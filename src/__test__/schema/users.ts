@@ -3,7 +3,7 @@ import { userSchemaValidation } from "../../schema/users";
 describe("userSchemaValidation", () => {
   it("should validate a user", () => {
     const user = {
-      email: "john.doe@example.com",
+      cpf: "john.doe@example.com",
       password: "1234567890s",
     };
 
@@ -13,7 +13,7 @@ describe("userSchemaValidation", () => {
 
   it("should return an error if the password is invalid", () => {
     const user = {
-      email: "john.doe@example.com",
+      cpf: "john.doe@example.com",
       password: "123456",
     };
 
@@ -21,9 +21,9 @@ describe("userSchemaValidation", () => {
     expect(result.success).toBe(false);
   });
 
-  it("should return an error if the email is invalid", () => {
+  it("should return an error if the cpf is invalid", () => {
     const user = {
-      email: "john.doe",
+      cpf: "john.doe",
       password: "123456312312",
     };
 
