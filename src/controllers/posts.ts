@@ -30,7 +30,7 @@ export const create = async (
     });
 
     const io = getIO();
-    io.emit("newPost", post);
+    io.emit("new-post", post);
 
     return res.status(201).json(post);
   } catch (error) {
@@ -61,10 +61,11 @@ export const like = async (req: Request, res: Response, next: NextFunction) => {
     });
 
     const io = getIO();
-    io.emit("postLiked", {
+    io.emit("post-liked", {
       postId: id,
       likes: updatedPost.likes,
       likedBy: updatedPost.likedBy,
+      userId,
     });
 
     return res.sendStatus(200);
@@ -136,7 +137,11 @@ export const comment = async (
     });
 
     const io = getIO();
-    io.emit("newComment", { postId: id, comment });
+    io.emit("new-comment", {
+      postId: id,
+      comment,
+      userId,
+    });
 
     return res.status(201).json(comment);
   } catch (error) {
@@ -176,7 +181,11 @@ export const unlike = async (
     });
 
     const io = getIO();
-    io.emit("postUnliked", { postId: id, likes: updatedPost.likes });
+    io.emit("post-unliked", {
+      postId: id,
+      likes: updatedPost.likes,
+      userId,
+    });
 
     return res.sendStatus(200);
   } catch (error) {
