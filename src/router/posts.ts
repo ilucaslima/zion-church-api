@@ -24,6 +24,11 @@ router.get("/", (req, res, next) => {
   post.viewAll(req, res, next);
 });
 
-router.post("/comment/:id", authMiddleware, (req, res, next) => {
-  post.comment(req, res, next);
-});
+router.post(
+  "/comment/:id",
+  upload.single("image"),
+  authMiddleware,
+  (req, res, next) => {
+    post.comment(req, res, next);
+  }
+);

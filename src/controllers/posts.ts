@@ -26,8 +26,8 @@ export const create = async (
         content,
         authorId: userId,
         authorName: user.name,
-        ...(req?.file?.location && { image: req?.file?.location }),
-        ...(req?.file?.originalname && {
+        ...(req?.file && {
+          image: req?.file?.location,
           imageName: req?.file?.originalname,
         }),
       },
@@ -137,6 +137,10 @@ export const comment = async (
         postId: id,
         authorId: userId,
         name: user.name,
+        ...(req?.file && {
+          image: req?.file?.location,
+          imageName: req?.file?.originalname,
+        }),
       },
     });
 

@@ -44,4 +44,7 @@ model Comment {
   author    User     @relation(fields: [authorId], references: [id])
   authorId  String
   name      String
+
+  image     String?
+  imageName String?
 }
